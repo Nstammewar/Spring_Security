@@ -11,12 +11,9 @@ public class CustomWebSecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
-        return  http.authorizeHttpRequests((requests) ->
-                requests.requestMatchers("/myAccount","/myBalance","/myLoans","/myCards").authenticated()
-                        .requestMatchers("/notices","/contact","/").permitAll()
-              ).formLogin(Customizer.withDefaults()).httpBasic(Customizer.withDefaults()).build();
-        //  anyRequest().authenticated()
-
+        return http.authorizeHttpRequests((requests) ->
+                requests.requestMatchers("/myAccount", "/myBalance", "/myLoans", "/myCards").authenticated()
+                        .requestMatchers("/notices", "/contact", "/").permitAll()
+        ).formLogin(Customizer.withDefaults()).httpBasic(Customizer.withDefaults()).build();
     }
-
 }
