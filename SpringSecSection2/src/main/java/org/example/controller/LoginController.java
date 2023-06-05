@@ -5,6 +5,7 @@ import org.example.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,11 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     @Autowired
-    CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Customer customer){
         try {
+
+            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
             customer=customerRepository.save(customer);
             if(customer.getId()>0){
                 return ResponseEntity.status(HttpStatus.CREATED)
